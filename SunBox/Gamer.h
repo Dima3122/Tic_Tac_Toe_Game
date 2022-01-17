@@ -5,7 +5,6 @@
 
 class Gamer : public Player
 {
-
 public: 
 	Gamer() = default;
 	~Gamer() = default;

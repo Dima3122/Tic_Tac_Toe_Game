@@ -77,42 +77,32 @@ void tic_tac_toe_game::print_winner(Game winner)//вывести победителя!
 			{
 				if (play_random_player == true)
 				{
-					if (enemy_is_zero == true)
-					{
-						fout << "Победу одержал случайный игрок!;Он играл за крестики\n";
-						std::cout << "Победу одержал случайный игрок! Он играл за крестики\n" << std::endl;
-					}
-					else
-					{
-						fout << "Победу одержал случайный игрок!;Он играл за нолики\n";
-						std::cout << "Победу одержал случайный игрок! Он играл за нолики\n" << std::endl;
-					}
+					fout << "Победу одержал случайный игрок!;Он играл за крестики\n";
+					std::cout << "Победу одержал случайный игрок! Он играл за крестики\n" << std::endl;
+					random_player.increment_one_stats(Increment_Stats::wins_cross);
+					enemy.increment_one_stats(Increment_Stats::lose_zero);
 				}
 				else
 				{
-					if (enemy_is_zero == true)
-					{
-						fout << "Победу одержал игрок!;Он играл за крестики\n";
-						std::cout << "Победу одержал игрок! Он играл за крестики\n" << std::endl;
-					}
-					else
-					{
-						fout << "Победу одержал игрок!;Он играл за нолики\n";
-						std::cout << "Победу одержал игрок! Он играл за нолики\n" << std::endl;
-					}
+					fout << "Победу одержал игрок!;Он играл за крестики\n";
+					std::cout << "Победу одержал игрок! Он играл за крестики\n" << std::endl;
+					gamer.increment_one_stats(Increment_Stats::wins_cross);
+					enemy.increment_one_stats(Increment_Stats::lose_zero);
 				}
 			}
 			else
 			{
-				if (enemy_is_zero == true)
+				fout << "Победу одержал противник!;Он играл за крестики\n";
+				std::cout << "Победу одержал противник! Он играл за крестики\n" << std::endl;
+				if (play_random_player == true)
 				{
-					fout << "Победу одержал противник!;Он играл за нолики\n";
-					std::cout << "Победу одержал противник! Он играл за нолики\n" << std::endl;
+					enemy.increment_one_stats(Increment_Stats::wins_cross);
+					random_player.increment_one_stats(Increment_Stats::lose_zero);
 				}
 				else
 				{
-					fout << "Победу одержал противник!;Он играл за крестики\n";
-					std::cout << "Победу одержал противник! Он играл за крестики\n" << std::endl;
+					enemy.increment_one_stats(Increment_Stats::wins_cross);
+					gamer.increment_one_stats(Increment_Stats::lose_zero);
 				}
 			}			 
 		}
@@ -122,34 +112,32 @@ void tic_tac_toe_game::print_winner(Game winner)//вывести победителя!
 			{
 				fout << "Победу одержал противник!;Он играл за нолики\n";
 				std::cout << "Победу одержал противник! Он играл за нолики\n" << std::endl;
+				if (play_random_player == true)
+				{
+					enemy.increment_one_stats(Increment_Stats::wins_zero);
+					random_player.increment_one_stats(Increment_Stats::lose_cross);
+				}
+				else
+				{
+					gamer.increment_one_stats(Increment_Stats::lose_cross);
+					enemy.increment_one_stats(Increment_Stats::wins_zero);
+				}
 			}
 			else
 			{
 				if (play_random_player == true)
 				{
-					if (enemy_is_zero == true)
-					{
-						fout << "Победу одержал случайный игрок!;Он играл за крестики\n";
-						std::cout << "Победу одержал случайный игрок! Он играл за крестики\n" << std::endl;
-					}
-					else
-					{
-						fout << "Победу одержал случайный игрок!;Он играл за нолики\n";
-						std::cout << "Победу одержал случайный игрок! Он играл за нолики\n" << std::endl;
-					}
+					fout << "Победу одержал случайный игрок!;Он играл за нолики\n";
+					std::cout << "Победу одержал случайный игрок! Он играл за нолики\n" << std::endl;
+					random_player.increment_one_stats(Increment_Stats::wins_zero);
+					enemy.increment_one_stats(Increment_Stats::lose_cross);
 				}
 				else
 				{
-					if (enemy_is_zero == true)
-					{
-						fout << "Победу одержал игрок!;Он играл за крестики\n";
-						std::cout << "Победу одержал игрок! Он играл за крестики\n" << std::endl;
-					}
-					else
-					{
-						fout << "Победу одержал  игрок!;Он играл за нолики\n";
-						std::cout << "Победу одержал  игрок! Он играл за нолики\n" << std::endl;
-					}
+					fout << "Победу одержал  игрок!;Он играл за нолики\n";
+					std::cout << "Победу одержал  игрок! Он играл за нолики\n" << std::endl;
+					gamer.increment_one_stats(Increment_Stats::wins_zero);
+					enemy.increment_one_stats(Increment_Stats::lose_cross);
 				}
 			}
 		}
@@ -278,6 +266,47 @@ void tic_tac_toe_game::set_play_random_player(bool play_random_player)
 	this->play_random_player = play_random_player;
 }
 
+void tic_tac_toe_game::print_final_score()
+{
+	std::fstream fout("result.csv", std::ofstream::app);
+	if (fout.is_open())
+	{
+		Stats stats = tic_tac_toe_game::enemy.get_stats();
+		if (play_random_player == true)
+		{
+			fout << "Количество побед у умного соперника крестиками: " << stats.wins_cross << "Ноликами " 
+				 << stats.wins_zero << " Проигрышей крестиками: " << stats.lose_cross << " Ноликами "
+				 << stats.lose_zero << " Ничьих: " << stats.draw << "\n";
+			std::cout << "Количество побед у умного соперника крестиками: " << stats.wins_cross << "Ноликами "
+					  << stats.wins_zero << "Проигрышей крестиками: " << stats.lose_cross << "Ноликами "
+					  << stats.lose_zero << "Ничьих: " << stats.draw << std::endl;
+			stats = tic_tac_toe_game::random_player.get_stats();
+			fout << "Количество побед у случайного игрока крестиками: " << stats.wins_cross << "Ноликами "
+				 << stats.wins_zero << "Проигрышей крестиками: " << stats.lose_cross << "Ноликами "
+				 << stats.lose_zero << "Ничьих: " << stats.draw << "\n";
+			std::cout << "Количество побед у случайного игрока крестиками: " << stats.wins_cross << "Ноликами "
+				<< stats.wins_zero << "Проигрышей крестиками: " << stats.lose_cross << "Ноликами "
+				<< stats.lose_zero << "Ничьих: " << stats.draw << std::endl;
+		}
+		else
+		{
+			fout << "Количество побед у умного соперника крестиками: " << stats.wins_cross << "Ноликами "
+				<< stats.wins_zero << "Проигрышей крестиками: " << stats.lose_cross << "Ноликами "
+				<< stats.lose_zero << "Ничьих: " << stats.draw << "\n";
+			std::cout << "Количество побед у умного соперника крестиками: " << stats.wins_cross << "Ноликами "
+				<< stats.wins_zero << "Проигрышей крестиками: " << stats.lose_cross << "Ноликами "
+				<< stats.lose_zero << "Ничьих: " << stats.draw << std::endl;
+			stats = tic_tac_toe_game::gamer.get_stats();
+			fout << "Количество побед у игрока крестиками: " << stats.wins_cross << "Ноликами "
+				<< stats.wins_zero << "Проигрышей крестиками: " << stats.lose_cross << "Ноликами "
+				<< stats.lose_zero << "Ничьих: " << stats.draw << "\n";
+			std::cout << "Количество побед у игрока крестиками: " << stats.wins_cross << "Ноликами "
+				<< stats.wins_zero << "Проигрышей крестиками: " << stats.lose_cross << "Ноликами "
+				<< stats.lose_zero << "Ничьих: " << stats.draw << std::endl;
+		}
+	}
+}
+
 bool tic_tac_toe_game::Is_Field_empty()//проверка на заполненность поля. смотрит на поле класса и если оно 
 {									   //равно 0, то выводит в файлик, что это ничья!
 	if (count_free_field == 0)
@@ -290,9 +319,12 @@ bool tic_tac_toe_game::Is_Field_empty()//проверка на заполненность поля. смотрит
 		else
 		{
 			fout << "НИЧЬЯ!\n";
+			std::cout << "Ничья" << std::endl;
+			gamer.increment_one_stats(Increment_Stats::draw);
+			random_player.increment_one_stats(Increment_Stats::draw);
+			enemy.increment_one_stats(Increment_Stats::draw);
 		}
 		fout.close();
-		std::cout << "Ничья" << std::endl;
 		return false;
 	}
 	return true;

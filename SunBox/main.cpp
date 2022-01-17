@@ -5,19 +5,25 @@ int main()
 {
 	setlocale(LC_ALL, "ru");//ставим русский язык в консольку
 	tic_tac_toe_game game;//создаем обьект класса
-	int count_game = 0, change = 0;//вспомогательные переменные, что бы направлять код куда нужно
+	int count_game = 0, change_play = 0, change_figuries = 0;//вспомогательные переменные, что бы направлять код куда нужно
 	bool change_player = true, first_move_enemy = true;
 	do
 	{
 		std::cout << "Выберете кто будет играть, вы или случайный игрок? \n1)Буду играть сам!\n2)Случайный игрок" << std::endl;
-		std::cin >> change;
-	} while ((change != 1) && (change != 2));//запрашиваем и проверяем данные, пока не введут правильные
+		std::cin >> change_play;
+	} while ((change_play != 1) && (change_play != 2));//запрашиваем и проверяем данные, пока не введут правильные
 	do
 	{
 		std::cout << "Сколько раз хотите сыграть?: ";
 		std::cin >> count_game;
 	} while (count_game < 0);//тоже ждем правильный ввод, а не -1
-	if (change == 1)//смотрим, что же выбрал человек
+	do
+	{
+		std::cout << "За кого будете играть первую игру?\n1)За крестики\n2)За нолики" << std::endl;
+		std::cin >> change_figuries;
+	} while ((change_figuries != 1) && (change_figuries != 2));
+	change_figuries == 1 ? first_move_enemy = false : first_move_enemy = true;
+	if (change_play == 1)//смотрим, что же выбрал человек
 	{
 		game.set_play_random_player(false);//ставим, что играем с человеком
 		for (int i = 0; i < count_game; i++)//основной цикл игры
@@ -75,5 +81,6 @@ int main()
 			}
 		}
 	}
+	game.print_final_score();
 	return 0;
 }

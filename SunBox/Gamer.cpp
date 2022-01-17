@@ -19,4 +19,3 @@ void Gamer::get_the_coordinates_of_the_move(int& param1, int& param2, int** cage
 		} while (check_coordinate(param1, param2, cage));
 	}
 }
-

@@ -1,9 +1,3 @@
 ﻿D:\програмирование\VS IDE\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(513,5): warning MSB8028: промежуточный каталог (Debug\) содержит файлы, которые используются совместно с другим проектом (SunBox.vcxproj).  Это может привести к ошибкам очистки и перестроения.
   Enemy.cpp
-  Gamer.cpp
-  Player.cpp
-  Random_Player.cpp
-  main.cpp
-  tic_tac_toe_game.cpp
-  Создание кода...
   SunBox.vcxproj -> D:\програмирование\программы\Изучение С++\Sunbox\SunBox\Debug\Tic_Tac_Toe_game.exe

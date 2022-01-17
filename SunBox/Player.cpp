@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "Enums.h"
 
 bool Player::check_coordinate(int& param1, int& param2, int** cage)
 {
@@ -21,4 +20,38 @@ void Player::set_enemy_is_zero(bool enemy_is_zero)
 bool Player::get_enemy_is_zero()
 {
 	return enemy_is_zero;
+}
+
+void Player::increment_one_stats(Increment_Stats stats)
+{
+	if (stats == Increment_Stats::wins_zero)
+	{
+		this->stats.wins_zero++;
+	}
+	else if(stats == Increment_Stats::wins_cross)
+	{
+		this->stats.wins_cross++;
+	}
+	else if(stats == Increment_Stats::lose_zero)
+	{
+		this->stats.lose_zero++;
+	}
+	else if (stats == Increment_Stats::lose_cross)
+	{
+		this->stats.lose_cross++;
+	}
+	else
+	{
+		this->stats.draw++;
+	}
+}
+
+Stats Player::get_stats()
+{
+	return stats;
+}
+
+void Player::set_stats(Stats stats)
+{
+	this->stats = stats;
 }

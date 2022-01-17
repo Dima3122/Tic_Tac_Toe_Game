@@ -35,6 +35,7 @@ public:
 	void set_enemy_is_zero(bool enemy_is_zero);
 	void set_play_random_player(bool play_random_player);
 	void print_winner(Game winner);
+	void print_final_score();
 
 	Gamer get_player();
 	Enemy get_enemy();
